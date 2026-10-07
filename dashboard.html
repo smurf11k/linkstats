@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#090909" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
+    ></script>
+  </head>
+  <body>
+    <main class="dash">
+      <section id="auth" class="auth hidden">
+        <h1 id="auth-title">Sign in</h1>
+        <p class="sub">Private dashboard.</p>
+        <form id="auth-form">
+          <input
+            type="email"
+            id="email"
+            required
+            autocomplete="username"
+            placeholder="Email"
+          />
+          <input
+            type="password"
+            id="password"
+            required
+            autocomplete="current-password"
+            placeholder="Password"
+          />
+          <button type="submit" id="submit-btn">Unlock</button>
+        </form>
+        <p id="auth-msg" class="msg"></p>
+        <p class="auth-footer">
+          <button type="button" id="mode-toggle" class="link-btn">
+            First time? Create account
+          </button>
+          <a href="index.html" class="link-btn">← Back to links</a>
+        </p>
+      </section>
+
+      <section id="panel" class="panel hidden">
+        <header class="panel-head">
+          <div class="head-left">
+            <a href="index.html" class="back-link">← Links</a>
+            <h1>Analytics</h1>
+          </div>
+          <div class="actions">
+            <button id="signout" class="ghost">Sign out</button>
+          </div>
+        </header>
+
+        <div class="filters" role="tablist">
+          <button data-range="today" class="filter">Today</button>
+          <button data-range="week" class="filter active">7 days</button>
+          <button data-range="month" class="filter">30 days</button>
+          <button data-range="year" class="filter">1 year</button>
+        </div>
+
+        <div class="grid">
+          <div class="card stat">
+            <h2>Total clicks</h2>
+            <p id="total" class="big">—</p>
+          </div>
+          <div class="card stat">
+            <h2>Top link</h2>
+            <p id="top" class="big">—</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 id="chart-title">Clicks over time</h2>
+          <div class="chart-wrap">
+            <canvas id="chart"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>Per link</h2>
+            <span class="hint"
+              >Click a row to filter the chart · Click again to clear</span
+            >
+          </div>
+          <table id="table">
+            <thead>
+              <tr>
+                <th>Link</th>
+                <th class="num">Clicks</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="js/dashboard.js"></script>
+  </body>
+</html>
