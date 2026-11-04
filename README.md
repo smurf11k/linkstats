@@ -69,7 +69,8 @@ per-link filtering and a weekly email report.
 ├── scripts/
 │   └── weekly_report.py    weekly email job
 └── .github/workflows/
-    └── weekly-report.yml   cron for the email
+    ├── weekly-report.yml   manually triggered email job
+    └── keep-alive.yml      daily site and Supabase keep-alive
 ```
 
 ---
@@ -142,8 +143,18 @@ wrong place.
    - `RESEND_API_KEY`
    - `REPORT_TO` (your email)
    - `REPORT_FROM` (e.g. `onboarding@resend.dev`)
-3. Actions → Weekly report → Run workflow. It fires every Sunday
-   18:00 UTC once verified.
+3. Actions → Weekly report → Run workflow. It fires every Sunday 18:00 UTC once verified. (uncomment the `schedule` in `weekly-report.yml` to enable)
+
+### 6. Keep Supabase active
+
+The `Keep Supabase alive` workflow runs once per day. It requests the
+deployed site and performs a read-only request to the Supabase REST API.
+It does not click links or trigger click tracking; link clicks are only
+tracked from real user interactions on the site.
+
+The workflow uses the existing `SUPABASE_URL` and
+`SUPABASE_SERVICE_ROLE_KEY` repository secrets. It can also be started
+manually from Actions → Keep Supabase alive → Run workflow.
 
 ---
 

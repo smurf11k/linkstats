@@ -1,8 +1,8 @@
 name: Weekly report
 
 on:
-  schedule:
-    - cron: "0 18 * * 0" # Sundays 18:00 UTC
+  #schedule:
+  # - cron: "0 18 * * 0" # Sundays 18:00 UTC
   workflow_dispatch:
 
 jobs:

@@ -1,0 +1,25 @@
+name: Keep Supabase alive
+
+on:
+  schedule:
+    - cron: "0 00 * * *" # Daily at 00:00 UTC
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request site
+        run: >-
+          curl --fail --silent --show-error --retry 3 --max-time 30
+          https://smurf11k.github.io/linkstats/
+
+      - name: Query Supabase without tracking a click
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: >-
+          curl --fail --silent --show-error --retry 3 --max-time 30
+          -H "apikey: ${SUPABASE_SERVICE_ROLE_KEY}"
+          -H "Authorization: Bearer ${SUPABASE_SERVICE_ROLE_KEY}"
+          "${SUPABASE_URL}/rest/v1/links?select=id&active=eq.true&limit=1"

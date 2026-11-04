@@ -1,67 +1,176 @@
-:root {
-  --bg: #090909;
-  --surface: #131313;
-  --surface-2: #191919;
-  --ink: #f0ead6;
-  --ink-dim: #7a746a;
-  --accent: #880808;
-  --accent-bright: #c1121f;
-  --rule: #2a2a2a;
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;700&family=Share+Tech+Mono&display=swap");
 
-  --shadow: 6px 6px 0 var(--accent);
-  --shadow-sm: 4px 4px 0 var(--accent);
+/* ---- Tokens ---- */
+
+:root {
+  --bg: #070708;
+  --panel: #0e0f11;
+  --line: #2c2e32;
+  --text: #c9cacc;
+  --dim: #686a6e;
+  --red: #e0202c;
+  --red-dark: #7a0a10;
+  --white: #ececec;
+
+  /* Notch shapes. The inner cut is 0.586px smaller to keep the diagonal
+     border exactly 1px thick, matching the straight edges. */
+  --chamfer: polygon(
+    14px 0,
+    100% 0,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    0 100%,
+    0 14px
+  );
+  --chamfer-in: polygon(
+    13.41px 0,
+    100% 0,
+    100% calc(100% - 13.41px),
+    calc(100% - 13.41px) 100%,
+    0 100%,
+    0 13.41px
+  );
+  --chamfer-sm: polygon(
+    10px 0,
+    100% 0,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0 100%,
+    0 10px
+  );
+  --chamfer-sm-in: polygon(
+    9.41px 0,
+    100% 0,
+    100% calc(100% - 9.41px),
+    calc(100% - 9.41px) 100%,
+    0 100%,
+    0 9.41px
+  );
+  --chamfer-xs: polygon(
+    8px 0,
+    100% 0,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    0 100%,
+    0 8px
+  );
+  --chamfer-xs-in: polygon(
+    7.41px 0,
+    100% 0,
+    100% calc(100% - 7.41px),
+    calc(100% - 7.41px) 100%,
+    0 100%,
+    0 7.41px
+  );
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  color-scheme: dark;
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: "Space Grotesk", system-ui, sans-serif;
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0 0 / 40px
+      40px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0
+      0 / 40px 40px,
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(224, 32, 44, 0.08),
+      transparent 60%
+    ),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: "Chakra Petch", system-ui, sans-serif;
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--red);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--red-dark);
 }
 
 .dash {
   max-width: 960px;
   margin: 0 auto;
-  padding: 40px 24px 72px;
+  padding: 48px 24px 72px;
 }
 
 .hidden {
   display: none !important;
 }
 
-/* ---- Sign-in -------------------------------------------------------- */
+/* ---- Sign-in / auth card ---- */
 
 .auth {
+  position: relative;
+  isolation: isolate;
   max-width: 420px;
   margin: 96px auto 0;
-  background: var(--surface);
-  border: 3px solid var(--ink);
-  box-shadow: var(--shadow);
-  padding: 32px 28px;
+  padding: 34px 30px 30px;
+  background: var(--line);
+  clip-path: var(--chamfer);
+}
+
+/* Inner panel with 1px border */
+.auth::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: var(--panel);
+  clip-path: var(--chamfer-in);
 }
 
 .auth h1 {
-  margin: 0 0 6px;
-  font-size: 1.6rem;
+  margin: 0 0 8px;
+  font-size: 1.5rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.2em;
+  color: var(--white);
 }
 
 .auth .sub {
-  margin: 0 0 24px;
-  color: var(--ink-dim);
-  font-size: 0.85rem;
+  margin: 0 0 26px;
+  color: var(--dim);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.25em;
+}
+.auth .sub::before {
+  content: "[ ";
+  color: var(--red);
+}
+.auth .sub::after {
+  content: " ]";
+  color: var(--red);
 }
 
 .auth form {
@@ -70,263 +179,139 @@ body {
   gap: 12px;
 }
 
-/* ---- Inputs and buttons --------------------------------------------- */
+/* ---- Inputs ---- */
 
 input,
 button {
-  font: inherit;
-  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-family: inherit;
 }
 
 input {
+  width: 100%;
   padding: 14px 16px;
   background: var(--bg);
-  color: var(--ink);
-  border: 3px solid var(--ink);
+  color: var(--text);
+  border: 1px solid var(--line);
   border-radius: 0;
+  font-size: 0.9rem;
   font-weight: 500;
+  letter-spacing: 0.08em;
   outline: none;
   transition:
-    box-shadow 0.15s ease,
-    border-color 0.15s ease;
-}
-
-input:focus {
-  border-color: var(--accent-bright);
-  box-shadow: 4px 4px 0 var(--accent-bright);
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 input::placeholder {
-  color: var(--ink-dim);
+  color: var(--dim);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.2em;
 }
 
+input:focus {
+  border-color: var(--red);
+  background: var(--panel);
+  box-shadow:
+    0 0 0 1px var(--red),
+    0 0 18px rgba(224, 32, 44, 0.25);
+}
+
+/* ---- Buttons ---- */
+
 button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   cursor: pointer;
-  padding: 14px 18px;
-  background: var(--accent);
-  color: var(--ink);
-  border: 3px solid var(--ink);
+  padding: 14px 22px;
+  border: none;
   border-radius: 0;
+  background: var(--red);
+  color: #fff;
+  font-size: 0.82rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  box-shadow: var(--shadow-sm);
+  letter-spacing: 0.18em;
+  clip-path: var(--chamfer-sm);
   transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background 0.15s ease;
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+/* White scan sweep */
+button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -45%;
+  width: 45%;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+  transition: left 0.5s ease;
 }
 
 button:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: var(--shadow);
+  background: #ff2f3b;
 }
-
+button:hover::after {
+  left: 115%;
+}
 button:active {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--accent);
+  background: var(--red-dark);
+}
+button:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
 }
 
+/* Ghost / notched outline button */
 button.ghost {
-  background: var(--bg);
-  color: var(--ink);
+  background: var(--line);
+  color: var(--text);
+}
+button.ghost::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: var(--panel);
+  clip-path: var(--chamfer-sm-in);
+  transition: background 0.2s ease;
+}
+button.ghost:hover {
+  background: var(--red);
+  color: #fff;
+}
+button.ghost:hover::before {
+  background: var(--red-dark);
 }
 
-button.ghost:hover {
-  background: var(--accent);
-}
+/* ---- Messages ---- */
 
 .msg {
   margin: 16px 0 0;
-  color: var(--accent-bright);
-  font-size: 0.85rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   min-height: 1.2em;
-}
-
-/* ---- Panel ---------------------------------------------------------- */
-
-.panel-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 28px;
-}
-
-.panel-head h1 {
-  margin: 0;
-  font-size: 2rem;
-  font-weight: 700;
+  color: var(--red);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.76rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.15em;
 }
 
-.panel-head .actions {
-  display: flex;
-  gap: 12px;
-}
-
-/* ---- Range filters -------------------------------------------------- */
-
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 28px;
-}
-
-.filter {
-  background: var(--bg);
-  color: var(--ink);
-  padding: 10px 16px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  box-shadow: 3px 3px 0 var(--accent);
-}
-
-.filter.active {
-  background: var(--accent);
-  box-shadow: var(--shadow-sm);
-}
-
-.filter.active:hover {
-  background: var(--accent-bright);
-}
-
-/* ---- Stat cards ----------------------------------------------------- */
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 18px;
-  margin-bottom: 18px;
-}
-
-.card {
-  background: var(--surface);
-  border: 3px solid var(--ink);
-  box-shadow: var(--shadow-sm);
-  padding: 22px 22px 24px;
-  margin-bottom: 18px;
-}
-
-.card.stat {
-  margin-bottom: 0;
-}
-
-.card h2 {
-  margin: 0 0 14px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--ink-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.big {
-  margin: 0;
-  font-size: 2.4rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: var(--ink);
-  line-height: 1;
-  word-break: break-word;
-}
-
-/* ---- Chart ---------------------------------------------------------- */
-
-.chart-wrap {
-  position: relative;
-  height: 320px;
-}
-
-/* ---- Table ---------------------------------------------------------- */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  text-align: left;
-  padding: 14px 4px;
-  border-bottom: 2px solid var(--rule);
-  font-size: 0.95rem;
-}
-
-th {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--ink-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-td {
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-
-td.num,
-th.num {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-tbody tr:last-child td {
-  border-bottom: none;
-}
-
-/* ---- Responsive ----------------------------------------------------- */
-
-@media (max-width: 640px) {
-  .dash {
-    padding: 28px 16px 56px;
-  }
-  .auth {
-    margin-top: 56px;
-    padding: 24px 20px;
-  }
-  .panel-head h1 {
-    font-size: 1.5rem;
-  }
-  .big {
-    font-size: 1.9rem;
-  }
-  .card {
-    padding: 18px;
-  }
-  .chart-wrap {
-    height: 240px;
-  }
-  th,
-  td {
-    padding: 12px 2px;
-    font-size: 0.85rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0.001ms !important;
-  }
-}
-
-/* ---- Auth footer links -------------------------------------------- */
+/* ---- Auth footer links ---- */
 
 .auth-footer {
-  margin: 18px 0 0;
+  margin: 22px 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -337,30 +322,52 @@ tbody tr:last-child td {
   background: none;
   border: none;
   box-shadow: none;
+  clip-path: none;
+  overflow: visible;
   padding: 4px;
-  color: var(--ink-dim);
-  font-size: 0.8rem;
-  font-weight: 500;
+  color: var(--dim);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  cursor: pointer;
+  letter-spacing: 0.18em;
   text-decoration: underline;
   text-underline-offset: 4px;
-  transition: color 0.15s ease;
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
-
+.link-btn::after {
+  content: none;
+}
 .link-btn:hover {
-  color: var(--accent-bright);
-  transform: none;
-  box-shadow: none;
+  background: none;
+  color: var(--red);
 }
 
-.link-btn:active {
-  transform: none;
-  box-shadow: none;
+/* ---- Panel header ---- */
+
+.panel-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
 }
 
-/* ---- Back link (panel header) --------------------------------------- */
+.panel-head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 90px;
+  height: 1px;
+  background: var(--red);
+  box-shadow: 0 0 10px rgba(224, 32, 44, 0.6);
+}
 
 .head-left {
   display: flex;
@@ -369,34 +376,169 @@ tbody tr:last-child td {
   flex-wrap: wrap;
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--ink-dim);
-  font-size: 0.8rem;
+.panel-head h1 {
+  margin: 0;
+  font-size: clamp(1.3rem, 4vw, 1.75rem);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.2em;
+  color: var(--white);
+}
+
+.panel-head .actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Notched back-link chip */
+.back-link {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--line);
+  clip-path: var(--chamfer-xs);
+  color: var(--dim);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
   text-decoration: none;
-  padding: 6px 10px;
-  border: 2px solid var(--ink-dim);
-  box-shadow: 2px 2px 0 var(--accent);
   transition:
-    color 0.15s ease,
-    border-color 0.15s ease,
-    transform 0.12s ease,
-    box-shadow 0.12s ease;
+    color 0.2s ease,
+    background 0.2s ease;
 }
-
+.back-link::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: var(--panel);
+  clip-path: var(--chamfer-xs-in);
+  transition: background 0.2s ease;
+}
 .back-link:hover {
-  color: var(--ink);
-  border-color: var(--ink);
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 var(--accent);
+  background: var(--red);
+  color: #fff;
+}
+.back-link:hover::before {
+  background: var(--red-dark);
 }
 
-/* ---- Card header with hint ------------------------------------------ */
+/* ---- Range filters ---- */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.filter {
+  padding: 10px 18px;
+  background: var(--line);
+  clip-path: var(--chamfer-sm);
+  color: var(--text);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+}
+.filter::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: var(--panel);
+  clip-path: var(--chamfer-sm-in);
+  transition: background 0.2s ease;
+}
+.filter:hover {
+  background: var(--red);
+  color: #fff;
+}
+.filter:hover::before {
+  background: var(--red-dark);
+}
+.filter.active {
+  background: var(--red);
+  color: #fff;
+}
+.filter.active::before {
+  background: var(--red-dark);
+}
+
+/* ---- Cards ---- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.card {
+  position: relative;
+  isolation: isolate;
+  margin-bottom: 18px;
+  padding: 22px 22px 24px;
+  background: var(--line);
+  clip-path: var(--chamfer);
+}
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: var(--panel);
+  clip-path: var(--chamfer-in);
+}
+
+.card.stat {
+  margin-bottom: 0;
+}
+
+/* Section heading with mono red text and fading rule */
+.card h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 16px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+}
+.card h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line), transparent);
+}
+
+.big {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  color: var(--white);
+  word-break: break-word;
+}
+
+/* ---- Chart ---- */
+
+.chart-wrap {
+  position: relative;
+  height: 320px;
+}
+
+/* ---- Card header and hint chip ---- */
 
 .card-head {
   display: flex;
@@ -409,42 +551,84 @@ tbody tr:last-child td {
 
 .card-head h2 {
   margin: 0;
+  flex: 0 0 auto;
+}
+.card-head h2::after {
+  content: none;
 }
 
 .hint {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 5px 10px;
-  color: var(--ink);
-  background: var(--accent);
-  border: 2px solid var(--ink);
-  box-shadow: 2px 2px 0 var(--ink);
-  font-size: 0.7rem;
-  font-weight: 700;
+  background: var(--line);
+  clip-path: var(--chamfer-xs);
+  color: var(--dim);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.64rem;
+  font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  line-height: 1.3;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
 }
-
 .hint::before {
   content: "▸";
-  color: var(--ink);
-  font-weight: 700;
+  color: var(--red);
+}
+.hint::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: var(--panel);
+  clip-path: var(--chamfer-xs-in);
 }
 
-@media (max-width: 640px) {
-  .card-head {
-    gap: 10px;
-  }
-  .hint {
-    font-size: 0.65rem;
-    padding: 4px 8px;
-  }
+/* ---- Table ---- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-/* ---- Table rows as filters ------------------------------------------ */
+th,
+td {
+  text-align: left;
+  padding: 14px 6px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.88rem;
+}
 
+th {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.68rem;
+  font-weight: 400;
+  color: var(--red);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+td {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+td.num,
+th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-family: "Share Tech Mono", monospace;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Rows act as filters */
 tbody tr.row {
   cursor: pointer;
   user-select: none;
@@ -453,25 +637,73 @@ tbody tr.row {
 }
 
 tbody tr.row:hover td {
-  background: rgba(136, 8, 8, 0.1);
+  background: rgba(224, 32, 44, 0.08);
+  color: var(--white);
 }
 
 tbody tr.row:focus-visible td {
-  background: rgba(136, 8, 8, 0.1);
-  outline: 2px solid var(--accent-bright);
+  background: rgba(224, 32, 44, 0.1);
+  outline: 2px solid var(--red);
   outline-offset: -2px;
 }
 
 tbody tr.row-active td {
-  background: rgba(136, 8, 8, 0.22);
+  background: rgba(224, 32, 44, 0.16);
+  color: var(--white);
 }
 
 tbody tr.row-active td:first-child {
-  border-left: 4px solid var(--accent);
-  padding-left: 8px;
+  box-shadow: inset 3px 0 0 var(--red);
+  padding-left: 12px;
 }
 
 tbody tr.row-active td:first-child::before {
   content: "▸ ";
-  color: var(--accent-bright);
+  color: var(--red);
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 640px) {
+  .dash {
+    padding: 32px 16px 56px;
+  }
+  .auth {
+    margin-top: 56px;
+    padding: 26px 20px 24px;
+  }
+  .panel-head h1 {
+    font-size: 1.25rem;
+    letter-spacing: 0.14em;
+  }
+  .big {
+    font-size: 1.8rem;
+  }
+  .card {
+    padding: 18px;
+  }
+  .chart-wrap {
+    height: 240px;
+  }
+  th,
+  td {
+    padding: 12px 4px;
+    font-size: 0.8rem;
+  }
+  .card-head {
+    gap: 10px;
+  }
+  .hint {
+    font-size: 0.6rem;
+    padding: 4px 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.001ms !important;
+  }
 }
