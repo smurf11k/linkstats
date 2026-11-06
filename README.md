@@ -148,13 +148,13 @@ wrong place.
 ### 6. Keep Supabase active
 
 The `Keep Supabase alive` workflow runs once per day. It requests the
-deployed site and performs a read-only request to the Supabase REST API.
-It does not click links or trigger click tracking; link clicks are only
-tracked from real user interactions on the site.
+deployed site and pings Supabase's health endpoint. It does not click
+links or trigger click tracking; link clicks are only tracked from real
+user interactions on the site.
 
-The workflow uses the existing `SUPABASE_URL` and
-`SUPABASE_SERVICE_ROLE_KEY` repository secrets. It can also be started
-manually from Actions → Keep Supabase alive → Run workflow.
+The workflow uses the existing `SUPABASE_URL` repository secret. It can
+also be started manually from Actions → Keep Supabase alive → Run
+workflow.
 
 ---
 
