@@ -14,12 +14,9 @@ jobs:
           curl --fail --silent --show-error --retry 3 --max-time 30
           https://smurf11k.github.io/linkstats/
 
-      - name: Query Supabase without tracking a click
+      - name: Ping Supabase health endpoint
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: >-
           curl --fail --silent --show-error --retry 3 --max-time 30
-          -H "apikey: ${SUPABASE_SERVICE_ROLE_KEY}"
-          -H "Authorization: Bearer ${SUPABASE_SERVICE_ROLE_KEY}"
-          "${SUPABASE_URL}/rest/v1/links?select=id&active=eq.true&limit=1"
+          "${SUPABASE_URL}/auth/v1/health"
